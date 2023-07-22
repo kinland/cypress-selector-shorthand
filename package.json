@@ -17,9 +17,9 @@
     "check:all": "yarpm run precheck && yarpm run lint:all && yarpm run stop-only",
     "dedupe": "jscpd",
     "dedupe:strict": "jscpd --mode strict --min-lines 1",
-    "lint": "eslint --cache --ext '.{cjs,mjs,js,jsx,cts,mts,ts,tsx}'",
+    "lint": "eslint --cache",
     "lint:fix": "yarpm run lint -- --fix",
-    "lint:all": "yarpm run lint -- ./lib ./bin ./schemaGenerator",
+    "lint:all": "yarpm run lint -- ./lib ./bin ./schemaGenerator README.md",
     "lint:all:fix": "yarpm run lint:all -- --fix",
     "madge": "madge --circular ./lib ./bin ./schemaGenerator",
     "precheck": "yarpm run madge",
@@ -27,7 +27,7 @@
     "stop-only": "stop-only --folder cypress"
   },
   "lint-staged": {
-    "*.(js|ts|jsx|tsx|cjs|cts|mjs|mts)": [
+    "*.(md|js|ts|jsx|tsx|cjs|cts|mjs|mts)": [
       "yarpm run stop-only -- --file",
       "yarpm run lint -- --fix"
     ]
@@ -36,10 +36,11 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "commander": "^11.0.0",
+    "@commander-js/extra-typings": "^11.0.0",
     "cypress": "^12.17.2",
-    "ts-node": "^10.9.1",
     "quicktype": "^23.0.59",
-    "quicktype-core": "^23.0.59"
+    "quicktype-core": "^23.0.59",
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "@types/node": "^18.16.1",
@@ -53,6 +54,7 @@
     "eslint-plugin-chai-expect": "^3.0.0",
     "eslint-plugin-cypress": "^2.13.3",
     "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-markdown": "^3.0.0",
     "eslint-watch": "^8.0.0",
     "husky": "^8.0.3",
     "jscpd": "^3.5.9",

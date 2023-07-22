@@ -1,10 +1,12 @@
 {
     "extends": "./tsconfig.json",
     "include": [
-        "./lib/**/*",
         "./bin/**/*",
+        "./cypress/**/*",
+        "./lib/**/*",
         "./schemaGenerator/**/*",
-        "./.eslintrc.cjs"
+        "cypress.config.ts",
+        ".eslintrc.cjs"
     ],
     "exclude": [
         "node_modules",

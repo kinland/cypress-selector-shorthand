@@ -44,9 +44,11 @@
         ]
     },
     "include": [
-        "./lib/**/*",
         "./bin/**/*",
-        "./schemaGenerator/**/*"
+        "./cypress/**/*",
+        "./lib/**/*",
+        "./schemaGenerator/**/*",
+        "cypress.config.ts"
     ],
     "exclude": [
         "node_modules",
