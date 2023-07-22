@@ -30,13 +30,19 @@
         "importHelpers": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
-        "paths": {},
+        "paths": {
+            "cypress-selector-generator/install": [
+                "./lib/install.ts"
+            ]
+        },
         "types": [
             "cypress",
             "@types/node"
         ]
     },
-    "include": [],
+    "include": [
+        "./lib/**/*",
+    ],
     "exclude": [
         "node_modules",
         "dist",

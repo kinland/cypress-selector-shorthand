@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "Cypress plugin to reduce boilerplate for control selectors",
   "type": "module",
+  "exports": {
+    "./install": "./lib/install.ts"
+  },
+  "types": "lib/global.d.ts",
   "scripts": {
     "check": "lint-staged",
     "check:all": "yarpm run precheck && yarpm run lint:all && yarpm run stop-only",
@@ -10,9 +14,9 @@
     "dedupe:strict": "jscpd --mode strict --min-lines 1",
     "lint": "eslint --cache --ext '.{cjs,mjs,js,jsx,cts,mts,ts,tsx}'",
     "lint:fix": "yarpm run lint -- --fix",
-    "lint:all": "yarpm run lint -- .",
+    "lint:all": "yarpm run lint -- ./lib",
     "lint:all:fix": "yarpm run lint:all -- --fix",
-    "madge": "madge --circular .",
+    "madge": "madge --circular ./lib",
     "precheck": "yarpm run madge",
     "prepare": "husky install",
     "stop-only": "stop-only --folder cypress"

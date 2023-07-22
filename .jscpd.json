@@ -1,5 +1,5 @@
 {
-    "pattern": "./**/*",
+    "pattern": "./lib/**/*",
     "ignore": "**/node_modules/**/*",
     "reporters": [
         "console",
