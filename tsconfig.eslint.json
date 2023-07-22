@@ -2,11 +2,13 @@
     "extends": "./tsconfig.json",
     "include": [
         "./lib/**/*",
+        "./bin/**/*",
         "./.eslintrc.cjs",
+        "./schemaGenerator/**/*"
     ],
     "exclude": [
         "node_modules",
         "dist",
         "build"
-    ],
+    ]
 }

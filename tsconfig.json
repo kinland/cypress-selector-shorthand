@@ -42,6 +42,8 @@
     },
     "include": [
         "./lib/**/*",
+        "./bin/**/*",
+        "./schemaGenerator/**/*"
     ],
     "exclude": [
         "node_modules",

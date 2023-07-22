@@ -1,5 +1,5 @@
 {
-    "pattern": "./lib/**/*",
+    "pattern": "./(lib|bin|cypress|schemaGenerator)/**/*",
     "ignore": "**/node_modules/**/*",
     "reporters": [
         "console",
