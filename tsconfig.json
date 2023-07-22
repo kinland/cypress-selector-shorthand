@@ -31,6 +31,9 @@
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "paths": {
+            "cypress-selector-generator": [
+                "./lib/navigationGenerator.ts"
+            ],
             "cypress-selector-generator/install": [
                 "./lib/install.ts"
             ]

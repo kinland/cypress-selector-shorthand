@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "Cypress plugin to reduce boilerplate for control selectors",
   "type": "module",
+  "main": "./lib/navigationGenerator.ts",
   "exports": {
+    ".": "./lib/navigationGenerator.ts",
     "./install": "./lib/install.ts"
   },
   "bin": {

@@ -3,8 +3,8 @@
     "include": [
         "./lib/**/*",
         "./bin/**/*",
-        "./.eslintrc.cjs",
-        "./schemaGenerator/**/*"
+        "./schemaGenerator/**/*",
+        "./.eslintrc.cjs"
     ],
     "exclude": [
         "node_modules",
