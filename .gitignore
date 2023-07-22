@@ -1,0 +1,26 @@
+# Idea
+.idea
+
+node_modules
+npm-debug.log
+
+.tmp
+.sass-cache
+.DS_Store
+tmp
+.projects
+*.orig
+
+.eslintcache
+build
+dist
+
+# ignore screenshots/downloads/videos resulting from Cypress tests
+artifacts/**/*
+
+# This is used by package-changed to detect when package versions have changed
+.packagehash
+
+# jscpd code duplication detection
+.jscpd
+jscpdReport

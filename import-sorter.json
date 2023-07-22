@@ -1,0 +1,23 @@
+{
+    "keepUnused": [
+        ".*"
+    ],
+    "wrappingStyle": {
+        "maxBindingNamesPerLine": 5,
+        "maxDefaultAndBindingNamesPerLine": 5,
+        "maxExportNamesPerLine": 5,
+        "maxNamesPerWrappedLine": 1,
+        "ignoreComments": false
+    },
+    "groupRules": [
+        "^react(-dom)?$",
+        "^@angular/",
+        "^vue$",
+        "^node:",
+        {},
+        "^[@]",
+        "^[.]"
+    ],
+    "excludeGlob": [],
+    "insertFinalNewline": true
+}

@@ -1,0 +1,11 @@
+{
+    "pattern": "./**/*",
+    "ignore": "**/node_modules/**/*",
+    "reporters": [
+        "console",
+        "html"
+    ],
+    "output": "./jscpdReport",
+    "store": "leveldb",
+    "ignore-pattern": null
+}
