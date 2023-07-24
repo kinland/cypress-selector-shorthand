@@ -103,8 +103,6 @@ function generateInterfaces(options: InterfaceGenerationOptions) {
             }
         });
 
-        console.log(final);
-
         writeFileSync(options.outFile, final.lines.join('\n'));
     })();
 }

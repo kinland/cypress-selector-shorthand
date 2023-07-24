@@ -1,6 +1,6 @@
-# cypress-selector-generator
+# cypress-selector-shorthand
 
-Tired of the boilerplate needed for writing unambiguous selectors for Cypress UI tests? Use `cypress-selector-generator` to create navigation shorthands!
+Tired of the boilerplate needed for writing unambiguous selectors for Cypress UI tests? Use `cypress-selector-shorthand` to create navigation shorthands!
 
 With this plugin, the following examples have full IntelliSense, and you can chain arbitrary Cypress commands off of your app selectors:
 ```js
@@ -59,7 +59,7 @@ cy.get('[data-test=app_info]:visible [data-test=create_new_user_section] [data-t
 ```bash
 pnpm add -D cypress-selector-shorthand
 # or
-npm i -D cypress-selector-shorthandgenerator
+npm i -D cypress-selector-shorthand
 # or
 yarn add -D cypress-selector-shorthand
 ```

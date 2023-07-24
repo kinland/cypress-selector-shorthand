@@ -1,1 +1,0 @@
-export { generateNavigationObject } from './navigationGenerator';

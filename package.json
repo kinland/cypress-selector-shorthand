@@ -1,71 +1,74 @@
 {
-  "name": "cypress-selector-shorthand",
-  "version": "0.0.1",
-  "description": "Cypress plugin to reduce boilerplate for control selectors",
-  "type": "module",
-  "main": "./lib/navigationGenerator.ts",
-  "exports": {
-    ".": "./lib/navigationGenerator.ts",
-    "./install": "./lib/install.ts"
-  },
-  "bin": {
-    "cypress-selector-shorthand": "./bin/cyGetShorthand.js"
-  },
-  "types": "lib/global.d.ts",
-  "scripts": {
-    "check": "lint-staged",
-    "check:all": "yarpm run precheck && yarpm run lint:all && yarpm run stop-only",
-    "dedupe": "jscpd",
-    "dedupe:strict": "jscpd --mode strict --min-lines 1",
-    "lint": "eslint --cache",
-    "lint:fix": "yarpm run lint -- --fix",
-    "lint:all": "yarpm run lint -- ./lib ./bin ./schemaGenerator README.md",
-    "lint:all:fix": "yarpm run lint:all -- --fix",
-    "madge": "madge --circular ./lib ./bin ./schemaGenerator",
-    "precheck": "yarpm run madge",
-    "prepare": "husky install",
-    "stop-only": "stop-only --folder cypress"
-  },
-  "lint-staged": {
-    "*.(md|js|ts|jsx|tsx|cjs|cts|mjs|mts)": [
-      "yarpm run stop-only -- --file",
-      "yarpm run lint -- --fix"
-    ]
-  },
-  "author": "Kinland",
-  "license": "GPL-3.0-or-later",
-  "dependencies": {
-    "commander": "^11.0.0",
-    "@commander-js/extra-typings": "^11.0.0",
-    "cypress": "^12.17.2",
-    "quicktype": "^23.0.59",
-    "quicktype-core": "^23.0.59",
-    "ts-node": "^10.9.1"
-  },
-  "devDependencies": {
-    "@types/node": "^18.16.1",
-    "@typescript-eslint/eslint-plugin": "^6.1.0",
-    "@typescript-eslint/parser": "^6.1.0",
-    "chai-parentheses": "^0.0.2",
-    "cypress-terminal-report": "^5.3.2",
-    "eslint": "^8.45.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-airbnb-typescript": "^17.1.0",
-    "eslint-plugin-chai-expect": "^3.0.0",
-    "eslint-plugin-cypress": "^2.13.3",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-markdown": "^3.0.0",
-    "eslint-watch": "^8.0.0",
-    "husky": "^8.0.3",
-    "jscpd": "^3.5.9",
-    "lint-staged": "^13.2.3",
-    "madge": "^6.1.0",
-    "shx": "^0.3.4",
-    "stop-only": "^3.3.1",
-    "typescript": "~5.0.4",
-    "yarpm": "^1.2.0"
-  },
-  "overrides": {
-    "eslint": "$eslint"
-  }
+    "name": "cypress-selector-shorthand",
+    "version": "0.0.1",
+    "description": "Cypress plugin to reduce boilerplate for control selectors",
+    "main": "./lib/navigationGenerator.ts",
+    "type": "module",
+    "exports": {
+        ".": "./dist/lib/index.js",
+        "./install": "./dist/lib/install.js"
+    },
+    "bin": {
+        "cypress-selector-shorthand": "./dist/bin/cyGetShorthand.js"
+    },
+    "types": "./lib/cypress-selector-shorthand.d.ts",
+    "scripts": {
+        "check": "lint-staged",
+        "check:all": "yarpm run precheck && yarpm run lint:all && yarpm run stop-only",
+        "dedupe": "jscpd",
+        "dedupe:strict": "jscpd --mode strict --min-lines 1",
+        "lint": "eslint --cache",
+        "lint:fix": "yarpm run lint -- --fix",
+        "lint:all": "yarpm run lint -- ./lib ./bin ./schemaGenerator README.md",
+        "lint:all:fix": "yarpm run lint:all -- --fix",
+        "madge": "madge --circular ./lib ./bin ./schemaGenerator",
+        "precheck": "yarpm run madge",
+        "prepare": "husky install",
+        "stop-only": "stop-only --folder cypress"
+    },
+    "lint-staged": {
+        "*.(md|js|ts|jsx|tsx|cjs|cts|mjs|mts)": [
+            "yarpm run stop-only -- --file",
+            "yarpm run lint -- --fix"
+        ]
+    },
+    "author": "Kinland",
+    "license": "GPL-3.0-or-later",
+    "dependencies": {
+        "commander": "^11.0.0",
+        "@commander-js/extra-typings": "^11.0.0",
+        "cypress": "^12.17.2",
+        "quicktype": "^23.0.59",
+        "quicktype-core": "^23.0.59",
+        "ts-node": "^10.9.1"
+    },
+    "devDependencies": {
+        "@types/node": "^18.16.1",
+        "@typescript-eslint/eslint-plugin": "^6.1.0",
+        "@typescript-eslint/parser": "^6.1.0",
+        "chai-parentheses": "^0.0.2",
+        "cypress-terminal-report": "^5.3.2",
+        "eslint": "^8.45.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-airbnb-typescript": "^17.1.0",
+        "eslint-plugin-chai-expect": "^3.0.0",
+        "eslint-plugin-cypress": "^2.13.3",
+        "eslint-plugin-import": "^2.27.5",
+        "eslint-plugin-markdown": "^3.0.0",
+        "eslint-watch": "^8.0.0",
+        "husky": "^8.0.3",
+        "jscpd": "^3.5.9",
+        "lint-staged": "^13.2.3",
+        "madge": "^6.1.0",
+        "shx": "^0.3.4",
+        "stop-only": "^3.3.1",
+        "typescript": "~5.0.4",
+        "yarpm": "^1.2.0"
+    },
+    "peerDependencies": {
+        "@types/readable-stream": "^2.3.15"
+    },
+    "overrides": {
+        "eslint": "$eslint"
+    }
 }
