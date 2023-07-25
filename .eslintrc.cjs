@@ -285,6 +285,7 @@ const sharedRules = {
 const markdownRuleExceptions = {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/space-infix-ops': 'off',
 };
 
 module.exports = {

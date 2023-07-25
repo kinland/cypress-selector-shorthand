@@ -1,6 +1,6 @@
-# cypress-selector-generator
+# cypress-selector-shorthand
 
-Tired of the boilerplate needed for writing unambiguous selectors for Cypress UI tests? Use `cypress-selector-generator` to create navigation shorthands!
+Tired of the boilerplate needed for writing unambiguous selectors for Cypress UI tests? Use `cypress-selector-shorthand` to create navigation shorthands!
 
 With this plugin, the following examples have full IntelliSense, and you can chain arbitrary Cypress commands off of your app selectors:
 ```js
@@ -23,7 +23,7 @@ myApp.appInfo.createNewUserSection
     });
 ```
 
-The above snippets equivalent to the following raw Cypress:
+The above snippets are equivalent to the following raw Cypress:
 ```js
 cy.get('[data-test=app_info] [data-test=create_new_user_section] [data-test=first_name_input]')
     .type('First');
@@ -44,7 +44,7 @@ cy.get('[data-test=app_info] [data-test=create_new_user_section]')
     });
 ```
 
-Or, if you would prefer sticking closer to normal Cypress syntax, there's a new `cy.tget` command. It works the same way as the built-in `cy.get`, but automatically wraps non-css/jQuery identifiers with `[data-test]`.
+There's also new `cy.tget` command. It works the same way as the built-in `cy.get`, but automatically wraps non-css/jQuery identifiers with `[data-test]`.
 
 For example: 
 ```js
@@ -74,6 +74,7 @@ To make use of the navigation shorthands, there's three extra steps you need to 
 
 First, you need to create a schema JSON file, e.g. the following might be used for the example at the top of this file:
 
+`./myAppSchema.json`
 ```json
 {
     "app_info": {
@@ -97,11 +98,12 @@ First, you need to create a schema JSON file, e.g. the following might be used f
 Once you have your schema, you need to generate interfaces for IntelliSense:
 
 ```bash
-npx cypress-selector-shorthand interfaces --appName 'MyApp' --infile './schema.json' --outfile './src/schema.ts`
+npx cypress-selector-shorthand interfaces --appName 'MyApp' --infile './myAppSchema.json' --outfile './src/myAppInterface.ts'`
 ```
 
-This will create a bunch of interfaces from your schema file (using the `quicktype` library):
+This will create a number of interfaces from your schema file (using the `quicktype` library). For example, the below is the result of the sample JSON above.
 
+`./src/myAppInterface.ts`
 ```typescript
 export interface MyApp {
     appInfo: Cypress.ChainableLike<JQuery<HTMLElement>, AppInfo>;
@@ -142,11 +144,13 @@ You might notice this generated a `with` field that didn't exist in the schema. 
 
 Finally, you need to generate your navigation object:
 
+`myApp.ts`
 ```js
-import { generateNavigationObject } from 'cypress-selector-generator';
-import type MyApp from './src/schema.ts';
+import { generateNavigationObject } from 'cypress-selector-shorthand';
 
-const myApp = generateNavigationObject < MyApp > (schema);
+import type MyApp from './myAppInterface.ts';
+
+const myApp = generateNavigationObject<MyApp>(schema);
 
 export { myApp };
 ```
@@ -163,6 +167,8 @@ Note that the selector shorthand generation looks for any field named `'row'` wi
 
 The selector shorthands are also passed to `.within`. If you use `.within` on a regular Cypress command, it behaves exactly like normal, but if you chain `.within` on a generated navigation object, it yields the navigation object AND the previous subject:
 ```js
+import { myApp } from './myApp.ts';
+
 cy.tget('something')
     // Normal Cypress callback parameters
     .within((prevSubject) => {});
