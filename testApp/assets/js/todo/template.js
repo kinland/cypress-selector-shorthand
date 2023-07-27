@@ -38,11 +38,11 @@
    */
   function Template () {
     this.defaultTemplate
-		=	'<li data-id="{{id}}" class="{{completed}}">'
+		=	'<li data-id="{{id}}" class="{{completed}}" data-test="row">'
 		+		'<div class="view">'
-		+			'<input class="toggle" type="checkbox" {{checked}}>'
-		+			'<label>{{title}}</label>'
-		+			'<button class="destroy todo-button"></button>'
+		+			'<input class="toggle" type="checkbox" {{checked}} data-test="checkbox">'
+		+			'<label data-test="label">{{title}}</label>'
+		+			'<button class="destroy todo-button" data-test="destroy_todo_button"></button>'
 		+		'</div>'
 		+	'</li>'
   }

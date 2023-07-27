@@ -323,10 +323,6 @@ module.exports = {
             rules: tsRules,
         },
         {
-            files: ['*.js', '*.cjs', '*.mjs', '*.jsx'],
-            rules: jsRules,
-        },
-        {
             files: ['**/*.md/*.js', '**/*.md/*.cjs', '**/*.md/*.mjs', '**/*.md/*.jsx'],
             extends: ['plugin:@typescript-eslint/disable-type-checked'],
             rules: {

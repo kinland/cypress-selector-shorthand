@@ -15,6 +15,9 @@ tmp
 build
 dist
 
+# Generated Cypress interface should not be committed
+cypress/todoInterface.ts
+
 # ignore screenshots/downloads/videos resulting from Cypress tests
 artifacts/**/*
 
