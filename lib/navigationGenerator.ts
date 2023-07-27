@@ -25,7 +25,6 @@ function proxifiedGet(selector: string) {
                 }
 
                 if (cypressChainableMethodsAndProperties.includes(propertyStr)) {
-                    const shouldLog = ['specWindow', 'chainerId'].includes(propertyStr) ? noLog : undefined;
                     // eslint-disable-next-line cypress/no-assigning-return-values
                     const chainable = cy.wrap(target, noLog).as('____generatedNavigation')
                         .then(() => {
@@ -38,15 +37,21 @@ function proxifiedGet(selector: string) {
                                 ? selector.replace(new RegExp(`^${generatedNavigationWithin?.replace(/[^A-Za-z0-9_]/g, '\\$&')} `), '')
                                 : selector;
 
-                            return cy.tget(escapedFilteredSelector, shouldLog);
+                            return cy.tget(escapedFilteredSelector);
                         });
+
+                    let chainedProperty = chainable[property as keyof Cypress.Chainable<JQuery<HTMLElement>>];
 
 
                     if (property === 'within') {
                         cy.wrap(selector, noLog).as('____generatedNavigationWithin');
                     }
 
-                    return (chainable[property as keyof Cypress.Chainable<JQuery<HTMLElement>>]);
+                    if (typeof(chainedProperty) === 'function') {
+                        chainedProperty = chainedProperty.bind(chainable);
+                    }
+
+                    return chainedProperty;
                 }
                 return target[property as keyof typeof target];
             },

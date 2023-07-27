@@ -10,8 +10,7 @@ function camelCaseToSnakeCase(data: string) {
 
 function calculateTgetSelector(selector: string): string {
     // This regex matches spaces, excluding space inside (), {}, or []
-    // See https://stackoverflow.com/a/18861480/3534080
-    const selectorTokens = selector.split(withinAnyBracketsRegex);
+    const selectorTokens = selector.match(withinAnyBracketsRegex) ?? [];
     const modifiedTokens = selectorTokens.map(token => {
         // only modify tokens that don't start with @, #, ., >, :, [, (, or {
         return (/^[@#.>:[({]/.test(token))
