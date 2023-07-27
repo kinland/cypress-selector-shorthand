@@ -59,7 +59,7 @@ cy.get('[data-test=app_info]:visible [data-test=create_new_user_section] [data-t
 ```bash
 pnpm add -D cypress-selector-shorthand
 # or
-npm i -D cypress-selector-shorthandgenerator
+npm i -D cypress-selector-shorthand
 # or
 yarn add -D cypress-selector-shorthand
 ```

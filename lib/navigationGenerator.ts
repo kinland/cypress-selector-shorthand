@@ -98,3 +98,4 @@ function generateNavigationObject<T>(schema: RawSchema | null) {
 }
 
 export { generateNavigationObject };
+export type { RawSchema };

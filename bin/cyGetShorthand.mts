@@ -1,5 +1,9 @@
+#!/usr/bin/env node
+
 import { program } from '@commander-js/extra-typings';
 
+// We aren't using a bundler for this (yet), so we need to explicitly include the
+// .mjs extension, even though it won't exist until we've built
 import { generateInterfaces } from '../schemaGenerator/interfaceGenerator.mjs';
 
 const cyGetShorthand = program
@@ -12,7 +16,7 @@ const cyGetShorthand = program
 
 const { input: schemaFile, outFile, appName: topLevelName } = cyGetShorthand.opts();
 
-generateInterfaces({
+await generateInterfaces({
     schemaFile,
     outFile,
     topLevelName,

@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
-        "composite": true,
         "noEmit": false,
+        "incremental": true,
         "baseUrl": ".",
         "rootDir": ".",
-        "outDir": "build",
+        "outDir": "dist",
         "strict": true,
-        "module": "ES2020",
+        "module": "ES2022",
         "moduleResolution": "node",
         "isolatedModules": true,
         "target": "ES2019",
@@ -30,14 +30,6 @@
         "importHelpers": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
-        "paths": {
-            "cypress-selector-generator": [
-                "./lib/navigationGenerator.ts"
-            ],
-            "cypress-selector-generator/install": [
-                "./lib/install.ts"
-            ]
-        },
         "types": [
             "cypress",
             "@types/node"
@@ -45,10 +37,8 @@
     },
     "include": [
         "./bin/**/*",
-        "./cypress/**/*",
         "./lib/**/*",
-        "./schemaGenerator/**/*",
-        "cypress.config.ts"
+        "./schemaGenerator/**/*"
     ],
     "exclude": [
         "node_modules",
