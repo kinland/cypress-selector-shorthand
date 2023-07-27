@@ -202,7 +202,7 @@ const sharedRules = {
         'error',
         {
             // anything used by Cypress is a dev dependency
-            devDependencies: [],
+            devDependencies: ['./cypress/**/*', './cypress.config.ts'],
             packageDir: '.',
         },
     ],
@@ -309,6 +309,8 @@ module.exports = {
         project: './tsconfig.eslint.json',
         tsconfigRootDir: '.',
     },
+    // Stuff in testApp does not originate from this repo and thus shouldn't be linted
+    ignorePatterns: ['testApp/**/*'],
     plugins: ['import', 'markdown'],
     overrides: [
         {

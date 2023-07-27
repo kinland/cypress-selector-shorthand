@@ -43,7 +43,9 @@
     "exclude": [
         "node_modules",
         "dist",
-        "build"
+        "build",
+        "./testApp",
+        "./cypress"
     ],
     "$schema": "http://json.schemastore.org/tsconfig"
 }

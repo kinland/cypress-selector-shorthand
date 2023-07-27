@@ -18,22 +18,25 @@
     "scripts": {
         "build": "yarpm exec tsc && cp ./lib/cypress-selector-shorthand.d.ts ./dist/lib/cypress-selector-shorthand.d.ts",
         "check": "lint-staged",
-        "check:all": "yarpm run precheck && yarpm run lint:all && yarpm run stop-only",
+        "check:all": "yarpm run precheck && yarpm run lint:all && yarpm run stop-only && yarpm run test",
+        "cypress": "cypress open --e2e -b chrome",
         "dedupe": "jscpd",
         "dedupe:strict": "jscpd --mode strict --min-lines 1",
         "lint": "eslint --cache",
         "lint:fix": "yarpm run lint -- --fix",
-        "lint:all": "yarpm run lint -- ./lib ./bin ./schemaGenerator README.md",
+        "lint:all": "yarpm run lint -- ./lib ./bin ./schemaGenerator README.md ./cypress cypress.config.ts",
         "lint:all:fix": "yarpm run lint:all -- --fix",
-        "madge": "madge --circular ./lib ./bin ./schemaGenerator",
+        "madge": "madge --circular ./lib ./bin ./schemaGenerator ./cypress",
         "precheck": "yarpm run madge",
         "prepare": "husky install",
-        "stop-only": "stop-only --folder cypress"
+        "stop-only": "stop-only --folder cypress",
+        "test": "cypress run e2e/todo.cy.ts"
     },
     "lint-staged": {
         "*.(md|js|ts|jsx|tsx|cjs|cts|mjs|mts)": [
             "yarpm run stop-only -- --file",
-            "yarpm run lint -- --fix"
+            "yarpm run lint -- --fix",
+            "yarpm run test"
         ]
     },
     "author": "Kinland",
