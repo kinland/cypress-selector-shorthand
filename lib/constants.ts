@@ -1,3 +1,5 @@
 const noLog: Cypress.Loggable = { log: false };
 
-export { noLog };
+const withinAnyBracketsRegex = /\s+(?![^[]*\]|[^(]*\)|[^{]*})/;
+
+export { noLog, withinAnyBracketsRegex };
