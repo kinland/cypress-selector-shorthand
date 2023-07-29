@@ -44,8 +44,8 @@
         "node_modules",
         "dist",
         "build",
-        "./testApp",
-        "./cypress"
+        "./cypress",
+        "./testApp"
     ],
     "$schema": "http://json.schemastore.org/tsconfig"
 }

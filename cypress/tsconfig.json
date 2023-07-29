@@ -1,0 +1,12 @@
+{
+    "extends": "../tsconfig.json",
+    "include": [
+        ".",
+        "../lib/cypress-selector-shorthand.d.ts"
+    ],
+    "exclude": [
+        "../node_modules",
+        "../dist",
+        "../build"
+    ]
+}

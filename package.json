@@ -2,21 +2,26 @@
     "name": "cypress-selector-shorthand",
     "version": "0.0.1",
     "description": "Cypress plugin to reduce boilerplate for control selectors",
-    "main": "./dist/lib/navigationGenerator.ts",
-    "type": "module",
     "exports": {
-        ".": "./dist/lib/index.js",
-        "./install": "./dist/lib/install.js"
+        ".": "./dist/navigationGenerator.js",
+        "./install": "./dist/install.js"
     },
     "bin": {
-        "cypress-selector-shorthand": "./dist/bin/cyGetShorthand.js"
+        "cypress-selector-shorthand": "./dist/bin/cyGetShorthand.mjs"
     },
     "files": [
-        "dist"
+        "index.js",
+        "install.js",
+        "dist/bin/cyGetShorthand.mjs",
+        "dist/install.js",
+        "dist/navigationGenerator.js",
+        "dist/lib/cypress-selector-shorthand.js",
+        "dist/schemaGenerator/interfaceGenerator.js",
+        "dist/lib/cypress-selector-shorthand.d.ts"
     ],
     "types": "./dist/lib/cypress-selector-shorthand.d.ts",
     "scripts": {
-        "build": "yarpm exec tsc && cp ./lib/cypress-selector-shorthand.d.ts ./dist/lib/cypress-selector-shorthand.d.ts",
+        "build": "npx webpack --config webpack.config.cjs && tsc -p tsconfig.node.json",
         "precheck": "yarpm run madge",
         "check": "lint-staged",
         "check:all": "yarpm run precheck && yarpm run lint:all && yarpm run stop-only && yarpm run test",
@@ -26,12 +31,12 @@
         "dedupe:strict": "jscpd --mode strict --min-lines 1",
         "lint": "eslint --cache",
         "lint:fix": "yarpm run lint -- --fix",
-        "lint:all": "yarpm run lint -- ./lib ./bin ./schemaGenerator README.md ./cypress cypress.config.ts",
+        "lint:all": "yarpm run lint -- ./lib ./bin ./schemaGenerator index.js install.js README.md ./cypress cypress.config.ts webpack.config.cjs .eslintrc.cjs",
         "lint:all:fix": "yarpm run lint:all -- --fix",
         "madge": "madge --circular ./lib ./bin ./schemaGenerator ./cypress",
         "prepare": "husky install",
         "stop-only": "stop-only --folder cypress",
-        "pretest": "yarpm run build && node ./dist/bin/cyGetShorthand.js -i ./cypress/todoSchema.json -o ./cypress/todoInterface.ts -n TodoApp",
+        "pretest": "yarpm run build && node ./dist/bin/cyGetShorthand.mjs -i ./cypress/todoSchema.json -o ./cypress/todoInterface.ts -n TodoApp",
         "test": "cypress run e2e/todo.cy.ts"
     },
     "lint-staged": {
@@ -60,7 +65,10 @@
         "quicktype-core": "^23.0.59"
     },
     "devDependencies": {
+        "@cypress/webpack-batteries-included-preprocessor": "^2.4.1",
+        "@cypress/webpack-preprocessor": "^5.17.1",
         "@types/node": "^18.16.1",
+        "@types/webpack": "^5.28.1",
         "@typescript-eslint/eslint-plugin": "^6.1.0",
         "@typescript-eslint/parser": "^6.1.0",
         "eslint": "^8.45.0",
@@ -76,7 +84,10 @@
         "lint-staged": "^13.2.3",
         "madge": "^6.1.0",
         "stop-only": "^3.3.1",
+        "ts-loader": "^9.4.4",
         "typescript": "~5.0.4",
+        "webpack": "^5.88.2",
+        "webpack-cli": "^5.1.4",
         "yarpm": "^1.2.0"
     },
     "peerDependencies": {

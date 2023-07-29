@@ -202,7 +202,7 @@ const sharedRules = {
         'error',
         {
             // anything used by Cypress is a dev dependency
-            devDependencies: ['./cypress/**/*', './cypress.config.ts'],
+            devDependencies: ['./cypress/**/*', 'cypress.config.ts', 'webpack.config.js'],
             packageDir: '.',
         },
     ],

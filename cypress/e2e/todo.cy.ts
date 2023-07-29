@@ -7,9 +7,9 @@
     MIT License © Cypress-io
 */
 
-import { generateNavigationObject } from 'cypress-selector-generator';
-import { calculateTgetSelector } from 'lib/util';
+import { generateNavigationObject } from 'cypress-selector-shorthand';
 
+import { calculateTgetSelector } from '../../lib/util';
 import type { TodoApp } from '../todoInterface';
 import schema from '../todoSchema.json';
 
