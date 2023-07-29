@@ -10,7 +10,7 @@ function install() {
     ) {
         const aliases = cy.state('aliases');
         const [withinSelector, navigationShorthand] =
-            ['____generatedNavigationWithin', '____generatedNavigation'].map(alias => aliases?.[alias]?.subjectChain[0]) as [string | undefined, object | undefined];
+            ['cypressSelectorGenerator.#generatedNavigationWithin', 'cypressSelectorGenerator.#generatedNavigation'].map(alias => aliases?.[alias]?.subjectChain[0]) as [string | undefined, object | undefined];
 
         const fnIndex = args[1] instanceof Function ? 1 : 2;
 
@@ -24,8 +24,7 @@ function install() {
 
         return cy.wrap(originalWithinFn(...args), noLog)
             .then(() => {
-                // eslint-disable-next-line no-underscore-dangle
-                delete aliases?.____generatedNavigationWithin;
+                delete aliases?.['cypressSelectorGenerator.#generatedNavigationWithin'];
             });
     });
 }

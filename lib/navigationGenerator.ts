@@ -26,12 +26,12 @@ function proxifiedGet(selector: string) {
 
                 if (cypressChainableMethodsAndProperties.includes(propertyStr)) {
                     // eslint-disable-next-line cypress/no-assigning-return-values
-                    const chainable = cy.wrap(target, noLog).as('____generatedNavigation')
+                    const chainable = cy.wrap(target, noLog).as('cypressSelectorGenerator.#generatedNavigation')
                         .then(() => {
                             const state = cy.state();
                             const withinCyWithin = state.withinSubjectChain !== undefined;
-                            const generatedNavigationWithin // eslint-disable-next-line no-underscore-dangle
-                                = state.aliases?.____generatedNavigationWithin?.subjectChain[0] as string | undefined;
+                            const generatedNavigationWithin
+                                = state.aliases?.['cypressSelectorGenerator.#generatedNavigationWithin']?.subjectChain[0] as string | undefined;
 
                             const escapedFilteredSelector = withinCyWithin
                                 ? selector.replace(new RegExp(`^${generatedNavigationWithin?.replace(/[^A-Za-z0-9_]/g, '\\$&')} `), '')
@@ -44,7 +44,7 @@ function proxifiedGet(selector: string) {
 
 
                     if (property === 'within') {
-                        cy.wrap(selector, noLog).as('____generatedNavigationWithin');
+                        cy.wrap(selector, noLog).as('cypressSelectorGenerator.#generatedNavigationWithin');
                     }
 
                     if (typeof(chainedProperty) === 'function') {
