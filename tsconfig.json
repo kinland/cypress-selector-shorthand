@@ -30,9 +30,9 @@
         "importHelpers": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
-        "types": [
-            "cypress",
-            "@types/node"
+        "typeRoots": [
+            "./lib",
+            "./node_modules/@types"
         ]
     },
     "include": [

@@ -1,9 +1,6 @@
 import { noLog } from './constants';
+import type { RawSchema } from './cypress-selector-shorthand';
 import { snakeCaseToCamelCase } from './util';
-
-type RawSchema = {
-    [key: string]: RawSchema | null;
-};
 
 const cypressChainableMethodsAndProperties: string[] = [];
 
@@ -103,4 +100,3 @@ function generateNavigationObject<T>(schema: RawSchema | null) {
 }
 
 export { generateNavigationObject };
-export type { RawSchema };

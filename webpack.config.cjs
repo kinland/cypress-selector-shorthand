@@ -11,8 +11,10 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     output: {
-        library: 'cypress_selector_shorthand',
-        libraryTarget: 'umd',
+        library: {
+            name: 'cypress_selector_shorthand',
+            type: 'umd',
+        },
         path: path.resolve(__dirname, 'dist'),
         clean: true,
     },
@@ -33,6 +35,6 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: ['.cts', '.mts', '.tsx', '.d.ts', '.ts', '.js'],
+        extensions: ['.d.ts', '.ts', '.cts', '.mts', '.tsx', '.js', '.cjs', '.mjs', '.jsx'],
     },
 };

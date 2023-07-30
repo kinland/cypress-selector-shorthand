@@ -1,16 +1,8 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { readFile, writeFile } from 'fs/promises';
 import { InputData, jsonInputForTargetLanguage, quicktype, TypeScriptTargetLanguage } from 'quicktype-core';
 
-interface InterfaceGenerationOptions {
-    schemaFile: string,
-    outFile: string,
-    topLevelName: string
-}
-
-type RawSchema = {
-    [key: string]: RawSchema | null;
-};
+/* eslint-disable @typescript-eslint/naming-convention */
+import type { InterfaceGenerationOptions, RawSchema } from '../lib/cypress-selector-shorthand';
 
 function addWithToSchemaRows(schema: RawSchema) {
     if (schema === null || schema === undefined) {
@@ -127,4 +119,3 @@ async function generateInterfaces(options: InterfaceGenerationOptions) {
 }
 
 export { generateInterfaces };
-export type { InterfaceGenerationOptions };

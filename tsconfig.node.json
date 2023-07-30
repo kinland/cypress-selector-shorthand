@@ -8,5 +8,6 @@
         "node_modules",
         "dist",
         "build"
-    ]
+    ],
+    "$schema": "http://json.schemastore.org/tsconfig"
 }

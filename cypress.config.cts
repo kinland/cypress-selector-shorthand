@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { defineConfig } from 'cypress';
+import _ from 'lodash';
 import path from 'path';
 
 // @ts-expect-error No types declaration available
@@ -15,17 +16,22 @@ export default defineConfig({
         setupNodeEvents(on, config) {
             // implement node event listeners here
             on('file:preprocessor', webpackPreprocessor({
+                target: 'node',
                 typescript: require.resolve('typescript'),
-                webpackOptions: {
-                    ...webpackPreprocessor.defaultOptions.webpackOptions,
-                    resolve: {
-                        extensions: ['.cts', '.mts', '.tsx', '.d.ts', '.ts', '.js'],
-                        alias: {
-                            'cypress-selector-shorthand$': path.resolve(__dirname, 'index.js'),
-                            'cypress-selector-shorthand/install$': path.resolve(__dirname, 'install.js'),
+                webpackOptions: _.merge(
+                    webpackPreprocessor.defaultOptions.webpackOptions,
+                    {
+                        devtool: 'inline-source-map',
+                        resolve: {
+                            extensions: ['.ts', '.cts', '.mts', '.tsx', '.js', '.cjs', '.mjs', '.jsx'],
+                            alias: {
+                                'cypress-selector-shorthand$': path.resolve(__dirname, 'index.js'),
+                                'cypress-selector-shorthand/install$': path.resolve(__dirname, 'install.js'),
+                                'cypress-selector-shorthand/generator$': path.resolve(__dirname, 'generator.js'),
+                            },
                         },
-                    },
-                },
+                    }
+                ),
             }));
         },
     },

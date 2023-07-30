@@ -1,2 +1,3 @@
-const { install } = require('./dist/install');
+import { install } from './dist/install.js';
+
 install();

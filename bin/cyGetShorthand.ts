@@ -4,7 +4,7 @@ import { program } from '@commander-js/extra-typings';
 
 // We aren't using a bundler for this (yet), so we need to explicitly include the
 // .mjs extension, even though it won't exist until we've built
-import { generateInterfaces } from '../schemaGenerator/interfaceGenerator.mjs';
+import { generateInterfaces } from '../schemaGenerator/interfaceGenerator.js';
 
 const cyGetShorthand = program
     .command('interfaces')

@@ -1,1 +1,1 @@
-export { generateNavigationObject } from './dist/navigationGenerator';
+export { generateNavigationObject } from './dist/navigationGenerator.js';

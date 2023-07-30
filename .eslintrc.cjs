@@ -202,7 +202,7 @@ const sharedRules = {
         'error',
         {
             // anything used by Cypress is a dev dependency
-            devDependencies: ['./cypress/**/*', 'cypress.config.ts', 'webpack.config.js'],
+            devDependencies: ['./cypress/**/*', 'cypress.config.cts', 'webpack.config.js'],
             packageDir: '.',
         },
     ],
@@ -289,6 +289,9 @@ const markdownRuleExceptions = {
 };
 
 module.exports = {
+    settings: {
+        'import/core-modules': ['lodash'],
+    },
     env: {
         browser: true,
         node: true,
