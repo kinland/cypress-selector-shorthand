@@ -1,4 +1,5 @@
 /// <reference types="Cypress" />
+
 // Cypress uses any instead of unknown in a number of places, so disable that lint check here.
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -159,6 +160,10 @@ export interface InterfaceGenerationOptions {
     topLevelName: string
 }
 
-export function generateInterfaces(options: InterfaceGenerationOptions): Promise<void>;
-
 export function generateNavigationObject<T>(schema: RawSchema | null): T;
+
+declare module 'cypress-selector-shorthand/install';
+
+declare module 'cypress-selector-shorthand/generator' {
+    export function generateInterfaces(options: InterfaceGenerationOptions): Promise<void>;
+}

@@ -2,7 +2,7 @@
     "extends": "./tsconfig.json",
     "include": [
         "./bin/**/*",
-        "./schemaGenerator/**/*",
+        "./schemaGenerator/**/*"
     ],
     "exclude": [
         "node_modules",

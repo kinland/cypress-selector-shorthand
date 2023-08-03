@@ -30,6 +30,20 @@
         "importHelpers": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
+        "paths": {
+            "@cypress-selector-shorthand": [
+                "./index.js"
+            ],
+            "@cypress-selector-shorthand/install": [
+                "./install.js"
+            ],
+            "@cypress-selector-shorthand/generator": [
+                "./dist/generator.mjs"
+            ],
+            "@cypress-selector-shorthand/types": [
+                "./lib/cypress-selector-shorthand"
+            ]
+        },
         "typeRoots": [
             "./lib",
             "./node_modules/@types"
@@ -43,7 +57,6 @@
     "exclude": [
         "node_modules",
         "dist",
-        "build",
         "./cypress",
         "./testApp"
     ],

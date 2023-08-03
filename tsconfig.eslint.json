@@ -5,17 +5,17 @@
         "./cypress/**/*",
         "./lib/**/*",
         "./schemaGenerator/**/*",
-        "generator.js",
+        "generator.mjs",
         "index.js",
         "install.js",
-        "cypress.config.cts",
+        "cypress.config.ts",
         ".eslintrc.cjs",
         "webpack.config.cjs",
         "./lib/cypress-selector-shorthand.d.ts"
     ],
     "exclude": [
         "node_modules",
-        "build"
+        "dist"
     ],
     "$schema": "http://json.schemastore.org/tsconfig"
 }

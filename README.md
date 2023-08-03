@@ -64,8 +64,11 @@ npm i -D cypress-selector-shorthand
 yarn add -D cypress-selector-shorthand
 ```
 
-Add this line to your project's `cypress/support/commands.js` (or `commands.ts`):
-```js
+Add the appropriate import to your project's `cypress/support/commands.js` (or `commands.ts`):
+```ts
+require('cypress-selector-shorthand/install');
+```
+```ts
 import 'cypress-selector-shorthand/install';
 ```
 

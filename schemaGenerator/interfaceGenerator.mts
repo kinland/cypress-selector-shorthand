@@ -82,6 +82,9 @@ async function generateInterfaces(options: InterfaceGenerationOptions) {
             topLevel = false;
             rowInterfaceName = null;
             if (interfaceProps.length > 0) {
+                // this can go at the top in a future version; no need for the &.
+                // The main reason for this (for now) is we don't know all the interface props yet,
+                // and it simplifies parsing
                 modifiedRow += ` & { [key: string]: Cypress.ChainableLike<JQuery<HTMLElement>, ${interfaceProps.join(' | ')}> };`;
             } else {
                 modifiedRow += ';';

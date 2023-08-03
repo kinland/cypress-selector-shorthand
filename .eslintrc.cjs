@@ -202,7 +202,7 @@ const sharedRules = {
         'error',
         {
             // anything used by Cypress is a dev dependency
-            devDependencies: ['./cypress/**/*', 'cypress.config.cts', 'webpack.config.js'],
+            devDependencies: ['./cypress/**/*', 'cypress.config.ts', 'webpack.config.cjs'],
             packageDir: '.',
         },
     ],
@@ -286,6 +286,7 @@ const markdownRuleExceptions = {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/space-infix-ops': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
 };
 
 module.exports = {
@@ -307,7 +308,6 @@ module.exports = {
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
-        sourceType: 'module',
         ecmaVersion: 2022,
         project: './tsconfig.eslint.json',
         tsconfigRootDir: '.',

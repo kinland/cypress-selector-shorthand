@@ -1,1 +1,3 @@
-export { generateNavigationObject } from './dist/navigationGenerator.js';
+const { generateNavigationObject } = require('./dist/navigationGenerator');
+
+exports.generateNavigationObject = generateNavigationObject;

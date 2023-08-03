@@ -1,2 +1,2 @@
 // install cypress-selector-shorthand
-import 'cypress-selector-shorthand/install';
+import '@cypress-selector-shorthand/install';

@@ -1,5 +1,6 @@
+import type { RawSchema } from '@cypress-selector-shorthand/types';
+
 import { noLog } from './constants';
-import type { RawSchema } from './cypress-selector-shorthand';
 import { snakeCaseToCamelCase } from './util';
 
 const cypressChainableMethodsAndProperties: string[] = [];
