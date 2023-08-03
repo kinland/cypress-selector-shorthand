@@ -1,0 +1,26 @@
+{
+    "todo_page": {
+        "todo_app": {
+            "new_todo": null,
+            "main": {
+                "toggle_all": null,
+                "rows": {
+                    "row": {
+                        "checkbox": null,
+                        "label": null,
+                        "destroy_todo_button": null
+                    }
+                }
+            },
+            "footer": {
+                "todo_count": null,
+                "filters": {
+                    "all": null,
+                    "active": null,
+                    "completed": null
+                },
+                "clear_completed_button": null
+            }
+        }
+    }
+}

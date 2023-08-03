@@ -1,0 +1,11 @@
+{
+    "pattern": "./(lib|bin|cypress|schemaGenerator)/**/*",
+    "ignore": "**/node_modules/**/*",
+    "reporters": [
+        "console",
+        "html"
+    ],
+    "output": "./jscpdReport",
+    "store": "leveldb",
+    "ignore-pattern": null
+}

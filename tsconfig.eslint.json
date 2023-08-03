@@ -1,0 +1,21 @@
+{
+    "extends": "./tsconfig.json",
+    "include": [
+        "./bin/**/*",
+        "./cypress/**/*",
+        "./lib/**/*",
+        "./schemaGenerator/**/*",
+        "generator.mjs",
+        "index.js",
+        "install.js",
+        "cypress.config.ts",
+        ".eslintrc.cjs",
+        "webpack.config.cjs",
+        "./lib/cypress-selector-shorthand.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ],
+    "$schema": "http://json.schemastore.org/tsconfig"
+}

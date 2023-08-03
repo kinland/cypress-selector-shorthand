@@ -1,0 +1,18 @@
+{
+    "tsConfig": "./tsconfig.json",
+    "fileExtensions": [
+        "cjs",
+        "mjs",
+        "js",
+        "jsx",
+        "cts",
+        "mts",
+        "ts",
+        "tsx"
+    ],
+    "detectiveOptions": {
+        "ts": {
+            "skipTypeImports": true
+        }
+    }
+}
