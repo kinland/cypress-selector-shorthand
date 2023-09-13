@@ -17,7 +17,7 @@ function calculateTgetSelector(selector: string): string {
             ? token
             // use negative lookbehind to avoid replacing anything following a :, >, or ~
             // e.g. control:visible will be replaced with [data-test=control]:visible
-            : token.replaceAll(/(?<![:>~].*)([^:>~]+)/g, '[data-test=$1]');
+            : token.replaceAll(/(?<![:>~].*)([^:>~]+)/g, '[data-test=\'$1\']');
     });
     return modifiedTokens.join(' ');
 }

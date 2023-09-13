@@ -75,7 +75,7 @@ function generateNavigationSubObject(prefix: string, schema: RawSchema | null) {
                                 get: () => Object.defineProperties(
                                     {},
                                     rowChildren.reduce((withAccumulator, column) => {
-                                        const rowChild = (text: string) => generateNavigationSubObject(`${prefix} row:has([data-test=${column}]:contains(${text}))`, schema.row)();
+                                        const rowChild = (text: string) => generateNavigationSubObject(`${prefix} row:has([data-test='${column}']:contains('${text}'))`, schema.row)();
                                         withAccumulator[snakeCaseToCamelCase(column)] = { value: rowChild };
                                         return withAccumulator;
                                     }, {} as PropertyDescriptorMap)),

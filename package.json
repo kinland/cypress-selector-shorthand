@@ -1,6 +1,6 @@
 {
     "name": "cypress-selector-shorthand",
-    "version": "0.0.4",
+    "version": "0.0.6",
     "description": "Cypress plugin to reduce boilerplate for control selectors",
     "exports": {
         ".": "./index.js",

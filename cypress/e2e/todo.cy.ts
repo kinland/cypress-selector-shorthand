@@ -179,9 +179,16 @@ describe('example to-do app', () => {
     });
 
     context('Additional tests not covered by original cypress-kitchen-sink Todo tests', () => {
+        it('test tget selector', () => {
+            expect(
+                calculateTgetSelector('todo_page todo_app main rows row')
+            ).to.equal("[data-test='todo_page'] [data-test='todo_app'] [data-test='main'] [data-test='rows'] [data-test='row']");
+        });
+
         it('test tget does not process within parenthesis or brackets', () => {
-            cy.wrap(calculateTgetSelector('todo_page [data-test=todo_app] main rows row:has(label:contains(Walk the dog))'))
-                .should('equal', '[data-test=todo_page] [data-test=todo_app] [data-test=main] [data-test=rows] [data-test=row]:has(label:contains(Walk the dog))');
+            expect(
+                calculateTgetSelector('todo_page [data-test=todo_app] main rows row:has(label:contains(Walk the dog))')
+            ).to.equal("[data-test='todo_page'] [data-test=todo_app] [data-test='main'] [data-test='rows'] [data-test='row']:has(label:contains(Walk the dog))");
         });
 
         it('test tget directly', () => {
