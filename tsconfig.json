@@ -1,0 +1,64 @@
+{
+    "compilerOptions": {
+        "noEmit": false,
+        "incremental": true,
+        "baseUrl": ".",
+        "rootDir": ".",
+        "outDir": "dist",
+        "strict": true,
+        "module": "ES2022",
+        "moduleResolution": "node",
+        "isolatedModules": true,
+        "target": "ES2019",
+        "lib": [
+            "ESNext",
+            "ES2022",
+            "ES2021",
+            "ES2020",
+            "ES2019",
+            "dom"
+        ],
+        "sourceMap": false,
+        "inlineSourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "allowJs": true,
+        "checkJs": true,
+        "resolveJsonModule": true,
+        "importHelpers": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "paths": {
+            "@cypress-selector-shorthand": [
+                "./index.js"
+            ],
+            "@cypress-selector-shorthand/install": [
+                "./install.js"
+            ],
+            "@cypress-selector-shorthand/generator": [
+                "./dist/generator.mjs"
+            ],
+            "@cypress-selector-shorthand/types": [
+                "./lib/cypress-selector-shorthand"
+            ]
+        },
+        "typeRoots": [
+            "./lib",
+            "./node_modules/@types"
+        ]
+    },
+    "include": [
+        "./bin/**/*",
+        "./lib/**/*",
+        "./schemaGenerator/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "./cypress",
+        "./testApp"
+    ],
+    "$schema": "http://json.schemastore.org/tsconfig"
+}
