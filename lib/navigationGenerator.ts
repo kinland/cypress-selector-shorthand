@@ -1,7 +1,9 @@
-import type { RawSchema } from '@cypress-selector-shorthand/types';
+import _ from 'lodash';
+
+import type { RawSchema } from './cypress-selector-shorthand';
 
 import { noLog } from './constants';
-import { snakeCaseToCamelCase } from './util';
+import withinTypeMap from '../withinTypeMap.json' assert { type: 'json' };
 
 const cypressChainableMethodsAndProperties: string[] = [];
 
@@ -45,7 +47,7 @@ function proxifiedGet(selector: string) {
                         cy.wrap(selector, noLog).as('cypressSelectorGenerator.#generatedNavigationWithin');
                     }
 
-                    if (typeof(chainedProperty) === 'function') {
+                    if (typeof chainedProperty === 'function') {
                         chainedProperty = chainedProperty.bind(chainable);
                     }
 
@@ -64,19 +66,19 @@ function generateNavigationSubObject(prefix: string, schema: RawSchema | null) {
             proxiedObject,
             Object.keys(schema)
                 .reduce((accumulator, selector) => {
-                    const key = snakeCaseToCamelCase(selector);
+                    const key = _.camelCase(selector);
                     const newPrefix = prefix.length > 0 ? `${prefix} ${selector}` : selector;
                     accumulator[key] = { get: generateNavigationSubObject(newPrefix, schema[selector]) };
 
-                    if (selector === 'row') {
-                        const rowChildren = Object.keys(schema.row as object);
+                    if (_.includes(withinTypeMap, selector)) {
+                        const rowChildren = Object.keys(schema![selector] as object);
                         if (rowChildren.length > 0) {
                             accumulator.with = {
                                 get: () => Object.defineProperties(
                                     {},
                                     rowChildren.reduce((withAccumulator, column) => {
-                                        const rowChild = (text: string) => generateNavigationSubObject(`${prefix} row:has([data-test='${column}']:contains('${text}'))`, schema.row)();
-                                        withAccumulator[snakeCaseToCamelCase(column)] = { value: rowChild };
+                                        const rowChild = (text: string) => generateNavigationSubObject(`${prefix} ${selector}:has([data-test='${column}']:contains('${text}'))`, schema![selector])();
+                                        withAccumulator[_.camelCase(column)] = { value: rowChild };
                                         return withAccumulator;
                                     }, {} as PropertyDescriptorMap)),
                             };
@@ -84,7 +86,7 @@ function generateNavigationSubObject(prefix: string, schema: RawSchema | null) {
                     }
 
                     return accumulator;
-                // eslint-disable-next-line @typescript-eslint/naming-convention
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
                 }, { '___prefix': { value: prefix } } as PropertyDescriptorMap)
         );
     }

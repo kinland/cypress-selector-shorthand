@@ -18,7 +18,8 @@
         "dist/install.js",
         "dist/navigationGenerator.js",
         "dist/schemaGenerator/interfaceGenerator.mjs",
-        "dist/lib/cypress-selector-shorthand.d.ts"
+        "dist/lib/cypress-selector-shorthand.d.ts",
+        "dist/withinTypeMap.json"
     ],
     "sideEffects": [
         "./install.js"

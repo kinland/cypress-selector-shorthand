@@ -1,5 +1,14 @@
 {
     "extends": "../tsconfig.json",
+    "compilerOptions": {
+        "allowJs": false,
+        "checkJs": false,
+        "types": [
+            "../cypress",
+            "../lib/cypress-selector-shorthand",
+            "node"
+        ],
+    },
     "include": [
         "./**/*"
     ],

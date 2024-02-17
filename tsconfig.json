@@ -6,7 +6,7 @@
         "rootDir": ".",
         "outDir": "dist",
         "strict": true,
-        "module": "ES2022",
+        "module": "ESNext",
         "moduleResolution": "node",
         "isolatedModules": true,
         "target": "ES2019",
@@ -30,20 +30,6 @@
         "importHelpers": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
-        "paths": {
-            "@cypress-selector-shorthand": [
-                "./index.js"
-            ],
-            "@cypress-selector-shorthand/install": [
-                "./install.js"
-            ],
-            "@cypress-selector-shorthand/generator": [
-                "./dist/generator.mjs"
-            ],
-            "@cypress-selector-shorthand/types": [
-                "./lib/cypress-selector-shorthand"
-            ]
-        },
         "typeRoots": [
             "./lib",
             "./node_modules/@types"

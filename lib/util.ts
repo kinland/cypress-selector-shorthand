@@ -1,13 +1,5 @@
 import { withinAnyBracketsRegex } from './constants';
 
-function snakeCaseToCamelCase(data: string) {
-    return data.replace(/(_\w)/g, (underscoreAndLetter) => underscoreAndLetter[1].toUpperCase());
-}
-
-function camelCaseToSnakeCase(data: string) {
-    return data.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
-}
-
 function calculateTgetSelector(selector: string): string {
     // This regex matches spaces, excluding space inside (), {}, or []
     const selectorTokens = selector.match(withinAnyBracketsRegex) ?? [];
@@ -22,4 +14,4 @@ function calculateTgetSelector(selector: string): string {
     return modifiedTokens.join(' ');
 }
 
-export { calculateTgetSelector, camelCaseToSnakeCase, snakeCaseToCamelCase };
+export { calculateTgetSelector };

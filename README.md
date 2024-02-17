@@ -87,8 +87,8 @@ First, you need to create a schema JSON file, e.g. the following might be used f
             "submit_button": null
         },
         "existing_users_table": {
-            "rows" : {
-                "row": {
+            "user_rows": {
+                "user_row": {
                     "firstName": null,
                     "lastName": null
                 }
@@ -101,45 +101,46 @@ First, you need to create a schema JSON file, e.g. the following might be used f
 Once you have your schema, you need to generate interfaces for IntelliSense:
 
 ```bash
-npx cypress-selector-shorthand interfaces --appName 'MyApp' --infile './myAppSchema.json' --outfile './src/myAppInterface.ts'`
+npx cypress-selector-shorthand interfaces --appName 'MyApp' --schema './myAppSchema.json' --outfile './src/myAppInterface.ts'`
 ```
 
 This will create a number of interfaces from your schema file (using the `quicktype` library). For example, the below is the result of the sample JSON above.
 
 `./src/myAppInterface.ts`
 ```typescript
-export interface MyApp {
+export type MyApp = {
     appInfo: Cypress.ChainableLike<JQuery<HTMLElement>, AppInfo>;
-}
+} & { [key: string]: Cypress.ChainableLike<JQuery<HTMLElement>, AppInfo> };
 
-export interface AppInfo {
+export type AppInfo = {
     createNewUserSection: Cypress.ChainableLike<JQuery<HTMLElement>, CreateNewUserSection>;
     existingUsersTable:   Cypress.ChainableLike<JQuery<HTMLElement>, ExistingUsersTable>;
-}
+} & { [key: string]: Cypress.ChainableLike<JQuery<HTMLElement>, CreateNewUserSection | ExistingUsersTable> };
 
-export interface CreateNewUserSection {
-    nameInput:    Cypress.Chainable<JQuery<HTMLElement>>
-    addressInput: Cypress.Chainable<JQuery<HTMLElement>>
-    submitButton: Cypress.Chainable<JQuery<HTMLElement>>
-}
+export type CreateNewUserSection = {
+    nameInput:    Cypress.Chainable<JQuery<HTMLElement>>;
+    addressInput: Cypress.Chainable<JQuery<HTMLElement>>;
+    submitButton: Cypress.Chainable<JQuery<HTMLElement>>;
+};
 
-export interface ExistingUsersTable {
-    rows: Cypress.ChainableLike<JQuery<HTMLElement>, Rows>;
-}
+export type ExistingUsersTable = {
+    userRows: Cypress.ChainableLike<JQuery<HTMLElement>, UserRows>;
+} & { [key: string]: Cypress.ChainableLike<JQuery<HTMLElement>, UserRows> };
 
-export interface Rows {
-    row:  Cypress.ChainableLike<JQuery<HTMLElement>, Row>;
-    with: With;
-}
+export type UserRows = {
+    userRow: Cypress.ChainableLike<JQuery<HTMLElement>, UserRow>;
+} & {
+    with:    UserWith;
+} & { [key: string]: Cypress.ChainableLike<JQuery<HTMLElement>, UserRow> };
 
-export interface Row {
-    firstName: Cypress.Chainable<JQuery<HTMLElement>>
-    lastName:  Cypress.Chainable<JQuery<HTMLElement>>
-}
+export type UserRow = {
+    firstName: Cypress.Chainable<JQuery<HTMLElement>>;
+    lastName:  Cypress.Chainable<JQuery<HTMLElement>>;
+};
 
-export interface With {
-    firstName: (text: string) => Cypress.ChainableLike<JQuery<HTMLElement>, Row>;
-    lastName:  (text: string) => Cypress.ChainableLike<JQuery<HTMLElement>, Row>;
+export interface UserWith {
+    firstName: (text: string) => Cypress.ChainableLike<JQuery<HTMLElement>, UserRow>;
+    lastName:  (text: string) => Cypress.ChainableLike<JQuery<HTMLElement>, UserRow>;
 }
 ```
 
@@ -166,7 +167,7 @@ For any tokens in `selector` that are not inside `()`/`{}`/`[]` and do not start
 
 If you are using the generated selector shorthands, you can chain Cypress commands off them. The shorthand chain is not evaluated until you chain a Cypress command off of it. So `myApp.appInfo.existingUsersSection` will not do anything, but `myApp.appInfo.existingUsersSection.refresh.click()` is equivalent to `cy.tget('my_app app_info existing_users_section refresh').click()`.
 
-Note that the selector shorthand generation looks for any field named `'row'` with descendants, and generates a corresponding `with` property. So in the example, you can use `myApp.appInfo.existingUsersSection.rows.with.firstName('John')` and that will return all rows for people with the first name John. This is equivalent to `cy.tget('my_app app_info existing_users_section rows row:has([data-test=firstName]:contains(John))')`, except the tget won't actually fire until you chain further Cypress commands off of it.
+Note that the selector shorthand generation looks for fields ending with `rows`/`items`/`menu-items` with a matching direct descendent that also has descendants (i.e. `row`/`item`/`menu-item`), and generates a corresponding `with` property. So in the example, you can use `myApp.appInfo.existingUsersSection.rows.with.firstName('John')` and that will return all rows for people with the first name John. This is equivalent to `cy.tget('my_app app_info existing_users_section rows row:has([data-test="firstName"]:contains(John))')`, except the tget won't actually fire until you chain further Cypress commands off of it.
 
 The selector shorthands are also passed to `.within`. If you use `.within` on a regular Cypress command, it behaves exactly like normal, but if you chain `.within` on a generated navigation object, it yields the navigation object AND the previous subject:
 ```js

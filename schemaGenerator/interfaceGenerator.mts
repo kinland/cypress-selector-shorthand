@@ -1,21 +1,29 @@
+import _ from 'lodash';
 import { readFile, writeFile } from 'fs/promises';
 import { InputData, jsonInputForTargetLanguage, quicktype, TypeScriptTargetLanguage } from 'quicktype-core';
 
-/* eslint-disable @typescript-eslint/naming-convention */
 import type { InterfaceGenerationOptions, RawSchema } from '../lib/cypress-selector-shorthand';
+import withinTypeMap from '../withinTypeMap.json' assert { type: 'json' };
+
+const processWithTypeArray = (values: string[]) => values.map(value => _.upperFirst(_.camelCase(value))).join('|');
+
+const withinTypesRowRegexFragment = processWithTypeArray(Object.values(withinTypeMap));
+
+const rowInterfaceRegex = new RegExp(`^export interface (?=(.*?)(${withinTypesRowRegexFragment}) \\{)`);
 
 function addWithToSchemaRows(schema: RawSchema) {
     if (schema === null || schema === undefined) {
         return;
     }
     Object.keys(schema).forEach(key => {
-        if (key === 'rows' && 'row' in schema.rows!) {
-            schema.rows.with = Object.fromEntries(
-                Object.entries(schema.rows.row!)
-                    .map(([k, v]) => {
-                        return [k, v];
-                    })
-            ) as unknown as RawSchema;
+        const [containerPrefix, containerType] = key.match(new RegExp(`(.*)?(${Object.keys(withinTypeMap).join('|')})$`))?.slice(1) ?? [];
+        if (containerType !== undefined) {
+            const innerSchema = schema[key]!;
+            const rowType = `${containerPrefix ?? ''}${withinTypeMap[containerType as keyof typeof withinTypeMap]}`;
+            if (rowType in innerSchema) {
+                const payload = innerSchema[rowType]!;
+                innerSchema.with = _.cloneDeep(payload);
+            }
         }
         addWithToSchemaRows(schema[key]!);
     });
@@ -40,19 +48,21 @@ async function generateInterfaces(options: InterfaceGenerationOptions) {
         outputFilename: options.outFile,
         lang: cypressTsLang,
         rendererOptions: {
+            /* eslint-disable @typescript-eslint/naming-convention */
             'just-types': true, // just-types?
             'acronym-style': 'camel',
             'nice-property-names': true,
-        // topLevel: options.topLevelName,
+            // topLevel: options.topLevelName,
+            /* eslint-enable @typescript-eslint/naming-convention */
         },
         combineClasses: false,
     });
 
     let topLevel = true;
     let interfaceProps: string[] = [];
-    let rowInterfaceName: string | null = null;
+    let rowInterfacePrefix: string | null = null;
+    let rowType: string | null = null;
     let rowInterface: string[] = [];
-    const rowInterfaceRegex = /^export interface (.*)Row \{/;
 
     final.lines = final.lines.flatMap((row) => {
         let modifiedRow = row;
@@ -62,17 +72,19 @@ async function generateInterfaces(options: InterfaceGenerationOptions) {
         } else if (topLevel || !modifiedRow.match(/^\s*with:/)) {
             modifiedRow = modifiedRow.replace(/(:\s*)([^;]+);$/, '$1Cypress.ChainableLike<JQuery<HTMLElement>, $2>;');
         } else if (!topLevel) {
-            modifiedRow = modifiedRow.replace(/^(\s*with:\s*)(.*)Row;$/, '} & {\n$1$2With;');
+            modifiedRow = modifiedRow.replace(new RegExp(`^(\\s*with:\\s*)(.*?)(?:${withinTypesRowRegexFragment});$`), '} & {\n$1$2With;');
         }
 
         modifiedRow = modifiedRow.replace(/export interface (.*) \{$/, 'export type $1 = {');
 
-        rowInterfaceName ??= row.match(rowInterfaceRegex)?.[1] ?? null;
-        if (rowInterfaceName !== null) {
+        rowInterfacePrefix ??= row.match(rowInterfaceRegex)?.[1] ?? null;
+        rowType ??= row.match(rowInterfaceRegex)?.[2] ?? null;
+
+        if (rowType !== null) {
             rowInterface.push(
                 row
-                    .replace(rowInterfaceRegex, 'export interface $1With {')
-                    .replace(/null;$/, `(text: string) => Cypress.ChainableLike<JQuery<HTMLElement>, ${rowInterfaceName}Row>;`)
+                    .replace(new RegExp(`^export interface (.*?)(${withinTypesRowRegexFragment}) \\{$`), 'export interface $1With {')
+                    .replace(/null;$/, `(text: string) => Cypress.ChainableLike<JQuery<HTMLElement>, ${rowInterfacePrefix}${rowType}>;`)
             );
         }
 
@@ -80,7 +92,7 @@ async function generateInterfaces(options: InterfaceGenerationOptions) {
 
         if (row.endsWith('}')) {
             topLevel = false;
-            rowInterfaceName = null;
+            rowInterfacePrefix = rowType = null;
             if (interfaceProps.length > 0) {
                 // this can go at the top in a future version; no need for the &.
                 // The main reason for this (for now) is we don't know all the interface props yet,
@@ -98,7 +110,7 @@ async function generateInterfaces(options: InterfaceGenerationOptions) {
             }
         }
 
-        if (rowInterfaceName === null && rowInterface.length > 0) {
+        if (rowType === null && rowInterface.length > 0) {
             const result = [modifiedRow, '', ...rowInterface];
             rowInterface = [];
             return result;
