@@ -116,6 +116,15 @@ const tsRules = {
             format: ['camelCase'],
         },
         {
+            selector: 'import',
+            format: null,
+            filter: {
+                // don't throw an error when importing lodash
+                regex: '^_$',
+                match: true,
+            },
+        },
+        {
             selector: 'variable',
             format: ['camelCase', 'UPPER_CASE'],
         },

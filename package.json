@@ -26,28 +26,28 @@
     "types": "./dist/lib/cypress-selector-shorthand.d.ts",
     "scripts": {
         "build": "webpack --config webpack.config.cjs && tsc -p tsconfig.node.json",
-        "precheck": "yarpm run madge",
+        "precheck": "pnpm run madge",
         "check": "lint-staged",
-        "check:all": "yarpm run precheck && yarpm run lint:all && yarpm run stop-only && yarpm run test",
+        "check:all": "run-s precheck lint:all stop-only test",
         "clean": "rm -f cypress/todoInterface.ts && rm -rf dist",
         "cypress": "cypress open --config-file cypress.config.ts --e2e -b chrome",
         "dedupe": "jscpd",
         "dedupe:strict": "jscpd --mode strict --min-lines 1",
         "lint": "eslint --cache",
-        "lint:fix": "yarpm run lint -- --fix",
-        "lint:all": "yarpm run lint -- ./lib ./bin ./schemaGenerator generator.mjs index.js install.js README.md ./cypress cypress.config.ts webpack.config.cjs .eslintrc.cjs",
-        "lint:all:fix": "yarpm run lint:all -- --fix",
-        "madge": "madge --circular ./lib ./bin ./schemaGenerator ./cypress",
+        "lint:fix": "pnpm run lint --fix",
+        "lint:all": "pnpm run lint ./lib ./bin ./schemaGenerator generator.mjs index.js install.js README.md ./cypress cypress.config.ts webpack.config.cjs .eslintrc.cjs",
+        "lint:all:fix": "pnpm run lint:all --fix",
+        "madge": "madge --warning --circular ./lib ./bin ./schemaGenerator ./cypress",
         "prepare": "husky install",
         "stop-only": "stop-only --folder cypress",
-        "pretest": "yarpm run build && node ./dist/bin/cyGetShorthand.mjs -i ./cypress/todoSchema.json -o ./cypress/todoInterface.ts -n TodoApp",
+        "pretest": "pnpm run build && node ./dist/bin/cyGetShorthand.mjs -i ./cypress/todoSchema.json -o ./cypress/todoInterface.ts -n TodoApp",
         "test": "cypress run --config-file cypress.config.ts e2e/todo.cy.ts"
     },
     "lint-staged": {
         "*.(md|js|ts|jsx|tsx|cjs|cts|mjs|mts)": [
-            "yarpm run stop-only -- --file",
-            "yarpm run lint -- --fix",
-            "yarpm run test"
+            "pnpm run stop-only --file",
+            "pnpm run lint:fix",
+            "pnpm run test"
         ]
     },
     "author": "Kinland",
@@ -62,39 +62,41 @@
     ],
     "license": "GPL-3.0",
     "dependencies": {
-        "@commander-js/extra-typings": "^11.0.0",
-        "commander": "^11.0.0",
-        "cypress": "^12.17.2",
-        "quicktype": "^23.0.59",
-        "quicktype-core": "^23.0.59"
+        "@commander-js/extra-typings": "^12.0.0",
+        "commander": "^12.0.0",
+        "cypress": "^13.6.4",
+        "quicktype": "^23.0.81",
+        "quicktype-core": "^23.0.81"
     },
     "devDependencies": {
-        "@types/lodash": "^4.14.196",
         "@types/node": "^18.16.1",
-        "@types/webpack": "^5.28.1",
-        "@typescript-eslint/eslint-plugin": "^6.1.0",
-        "@typescript-eslint/parser": "^6.1.0",
-        "eslint": "^8.45.0",
+        "@types/webpack": "^5.28.5",
+        "@typescript-eslint/eslint-plugin": "^6.21.0",
+        "@typescript-eslint/parser": "^6.21.0",
+        "eslint": "^8.56.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-config-airbnb-typescript": "^17.1.0",
         "eslint-plugin-chai-expect": "^3.0.0",
-        "eslint-plugin-cypress": "^2.13.3",
-        "eslint-plugin-import": "^2.27.5",
-        "eslint-plugin-markdown": "^3.0.0",
+        "eslint-plugin-cypress": "^2.15.1",
+        "eslint-plugin-import": "^2.29.1",
+        "eslint-plugin-markdown": "^3.0.1",
         "eslint-watch": "^8.0.0",
-        "husky": "^8.0.3",
-        "jscpd": "^3.5.9",
-        "lint-staged": "^13.2.3",
+        "husky": "^9.0.10",
+        "jscpd": "^3.5.10",
+        "lint-staged": "^15.2.2",
         "madge": "^6.1.0",
+        "npm-run-all2": "^6.1.2",
         "stop-only": "^3.3.1",
-        "ts-loader": "^9.4.4",
+        "ts-loader": "^9.5.1",
+        "tsconfig-paths-webpack-plugin": "^4.1.0",
         "typescript": "~5.0.4",
-        "webpack": "^5.88.2",
-        "webpack-cli": "^5.1.4",
-        "yarpm": "^1.2.0"
+        "webpack": "^5.90.1",
+        "webpack-cli": "^5.1.4"
     },
     "peerDependencies": {
-        "@types/readable-stream": "^2.3.15"
+        "@types/lodash": "*",
+        "@types/readable-stream": "^2.3.15",
+        "lodash": "*"
     },
     "overrides": {
         "eslint": "$eslint"
