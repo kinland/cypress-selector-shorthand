@@ -98,6 +98,8 @@ First, you need to create a schema JSON file, e.g. the following might be used f
 }
 ```
 
+Note that currently, if your identifier overlaps with a Cypress command (e.g. `type`), then you won't be able to use that Cypress command directly. In the future, I may find a workaround, such as renaming `type` to `typeControl` or the Cypress command to `.cyType`.
+
 Once you have your schema, you need to generate interfaces for IntelliSense:
 
 ```bash

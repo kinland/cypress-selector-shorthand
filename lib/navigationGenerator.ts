@@ -1,17 +1,60 @@
 import _ from 'lodash';
 
-import type { RawSchema } from './cypress-selector-shorthand';
+import type { Loggable, RawSchema } from './cypress-selector-shorthand';
 
 import { noLog } from './constants';
 import withinTypeMap from '../withinTypeMap.json' assert { type: 'json' };
+import { GeneratedNavigation, getCypressSelectorShorthandState, splitSelectorByWithinState } from './util';
+
+type WithinChainableLike = Cypress.ChainableLike<JQuery<HTMLElement>, GeneratedNavigation>;
+type InnerWithinCallbackType = (navigationShorthand: WithinChainableLike, currentSubject: JQuery<HTMLElement>) => void;
 
 const cypressChainableMethodsAndProperties: string[] = [];
+
+function withinWrapper(
+    selector: string,
+    generatedNavigation: WithinChainableLike & GeneratedNavigation,
+    chainable: WithinChainableLike,
+    optionsOrFn: Partial<Loggable> | InnerWithinCallbackType,
+    fnOrUndefined?: InnerWithinCallbackType
+) {
+    const [options, originalCallback] = optionsOrFn instanceof Function
+        ? [undefined, optionsOrFn]
+        : [optionsOrFn, fnOrUndefined!];
+
+    const callback = (subject: JQuery<HTMLElement>) => {
+        cy.wrap(subject, noLog)
+            .as('cypressSelectorShorthand.#generatedNavigationWithinSubject');
+        return originalCallback(generatedNavigation, subject);
+    };
+
+    cy.then(() => {
+        const { generatedNavigationWithin } = getCypressSelectorShorthandState();
+        const escapedFilteredSelector = splitSelectorByWithinState(generatedNavigationWithin, selector);
+
+        cy.wrap([...generatedNavigationWithin, escapedFilteredSelector], noLog)
+            .as('cypressSelectorShorthand.#generatedNavigationWithin');
+    });
+    return (options !== undefined
+        ? chainable.within(options, callback)
+        : chainable.within(callback)
+    ).then((result) => {
+        const { generatedNavigationWithin } = getCypressSelectorShorthandState();
+        cy.wrap(generatedNavigationWithin.slice(0, -1), noLog)
+            .as('cypressSelectorShorthand.#generatedNavigationWithin');
+        return cy.wrap(result, noLog);
+    });
+}
 
 function proxifiedGet(selector: string) {
     return new Proxy(
         new Object(),
         {
-            get: function (target, property) {
+            get: function (
+                target: GeneratedNavigation,
+                property,
+                proxy: Cypress.ChainableLike<JQuery<HTMLElement>, typeof target>
+            ) {
                 const propertyStr = property.toString();
 
                 if (cypressChainableMethodsAndProperties.length === 0) {
@@ -24,27 +67,22 @@ function proxifiedGet(selector: string) {
                     cypressChainableMethodsAndProperties.push(...capturedMethodsAndProperties);
                 }
 
-                if (cypressChainableMethodsAndProperties.includes(propertyStr)) {
+                // the !(propertyStr in target) has the unfortunate consequence that if you overlap your control name
+                // with a Cypress command (e.g. 'type'), then you cannot call the Cypress command from the chain
+                if (cypressChainableMethodsAndProperties.includes(propertyStr) && !(propertyStr in target)) {
                     // eslint-disable-next-line cypress/no-assigning-return-values
-                    const chainable = cy.wrap(target, noLog).as('cypressSelectorGenerator.#generatedNavigation')
-                        .then(() => {
-                            const state = cy.state();
-                            const withinCyWithin = state.withinSubjectChain !== undefined;
-                            const generatedNavigationWithin
-                                = state.aliases?.['cypressSelectorGenerator.#generatedNavigationWithin']?.subjectChain[0] as string | undefined;
-
-                            const escapedFilteredSelector = withinCyWithin
-                                ? selector.replace(new RegExp(`^${generatedNavigationWithin?.replace(/[^A-Za-z0-9_]/g, '\\$&')} `), '')
-                                : selector;
-
-                            return cy.tget(escapedFilteredSelector);
-                        });
+                    const chainable = cy.then(() => {
+                        const { generatedNavigationWithin } = getCypressSelectorShorthandState();
+                        const escapedFilteredSelector = splitSelectorByWithinState(generatedNavigationWithin, selector);
+                        return escapedFilteredSelector !== ''
+                            ? cy.tget(escapedFilteredSelector)
+                            : cy.get('@cypressSelectorShorthand.#generatedNavigationWithinSubject', noLog);
+                    }) as Cypress.ChainableLike<JQuery<HTMLElement>, typeof target>;
 
                     let chainedProperty = chainable[property as keyof Cypress.Chainable<JQuery<HTMLElement>>];
 
-
                     if (property === 'within') {
-                        cy.wrap(selector, noLog).as('cypressSelectorGenerator.#generatedNavigationWithin');
+                        return withinWrapper.bind(chainable, selector, proxy, chainable);
                     }
 
                     if (typeof chainedProperty === 'function') {
